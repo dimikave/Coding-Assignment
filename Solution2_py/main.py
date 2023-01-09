@@ -7,6 +7,9 @@ import pika
 import json
 import time
 
+
+### LOGGING!!!
+
 # Opening JSON file
 f = open('config.json')
   
@@ -43,12 +46,6 @@ results = get_results(api_hostname)
 filtered_results = send_to_exchange(results, rabbitmq_hostname, rabbitmq_username, rabbitmq_password, rabbitmq_exchange, rabbitmq_queue)
 
 ####### Following lines only exist for checking purposes
-# Connect to the RabbitMQ instance
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host=rabbitmq_hostname,
-    credentials=pika.PlainCredentials(rabbitmq_username, rabbitmq_password)
-))
-channel = connection.channel()
 
 # Check if there is a message in the queue
 method_frame, header_frame, body = channel.basic_get(queue=rabbitmq_queue)
@@ -75,7 +72,6 @@ if method_frame:
     print("There is a message in the queue.")
 else:
     print("There are no messages in the queue.")
-
 #########
 
 channel.close()

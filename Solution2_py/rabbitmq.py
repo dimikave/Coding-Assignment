@@ -55,6 +55,7 @@ def send_to_exchange(results, rabbitmq_hostname, rabbitmq_username, rabbitmq_pas
         body=json.dumps(message),
         mandatory=True
     )
+    
 
     # Set the queue for the filtered results
     channel.queue_bind(
@@ -62,5 +63,5 @@ def send_to_exchange(results, rabbitmq_hostname, rabbitmq_username, rabbitmq_pas
         exchange=rabbitmq_exchange,
         routing_key=routing_key
     )
-    return filtered_results
     
+    return filtered_results

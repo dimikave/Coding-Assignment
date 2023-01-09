@@ -20,7 +20,6 @@ def consume_from_queue(rabbitmq_hostname, rabbitmq_username, rabbitmq_password, 
     def callback(ch, method, properties, body):
         # Process the message (e.g. store it in the database)
         print(f"------ Received message from queue: {body}")
-
     # # Start consuming messages from the queue
     try:
         # Consume messages from the queue

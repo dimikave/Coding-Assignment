@@ -13,11 +13,7 @@ def store_in_database(data, reinit, database_hostname, database_username, databa
     # Create a cursor
     cursor = conn.cursor()
 
-    # If you want to re initialize the table:
-    if reinit == True:
-        sql = "DROP TABLE results"
-        cursor.execute(sql)
-
+    
     # Create the table if it does not already exist
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS results (
@@ -30,6 +26,25 @@ def store_in_database(data, reinit, database_hostname, database_username, databa
             value REAL
         )
     """)
+
+    # If you want to re initialize the table:
+    if reinit == True:
+        sql = "DROP TABLE results"
+        cursor.execute(sql)
+        
+        # Create the table if it does not already exist
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS results (
+                gatewayEui BIGINT,
+                profileId INT,
+                endpointId INT,
+                clusterId INT,
+                attributeId INT,
+                timestamp BIGINT,
+                value REAL
+            )
+        """)
+
 
 
     # Insert the data into the table
