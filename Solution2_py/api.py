@@ -1,8 +1,9 @@
 import requests
+import json
 
-def get_results():
+def get_results(api_hostname):
     # Make a GET request to the API
-    response = requests.get("https://xqy1konaa2.execute-api.eu-west-1.amazonaws.com/prod/results")
+    response = requests.get(api_hostname)
 
     # Check the status code of the response to make sure the request was successful
     if response.status_code == 200:

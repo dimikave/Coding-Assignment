@@ -1,20 +1,28 @@
 import pika
 import json
 
-def send_to_exchange(results):
+# Opening JSON file
+f = open('config.json')
+  
+# returns JSON object as 
+# a dictionary
+config = json.load(f)
+
+
+def send_to_exchange(results, rabbitmq_hostname, rabbitmq_username, rabbitmq_password, rabbitmq_exchange, rabbitmq_queue):
     # Connect to the RabbitMQ instance
     connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host="candidatemq.n2g-dev.net",
-        credentials=pika.PlainCredentials("cand_62cm", "3ITMjTgArIDmesgX")
+        host=rabbitmq_hostname,
+        credentials=pika.PlainCredentials(rabbitmq_username, rabbitmq_password)
     ))
     channel = connection.channel()
 
         # Check if the exchange already exists
     try:
-        channel.exchange_declare(exchange="cand_62cm", exchange_type="direct", passive=True)
+        channel.exchange_declare(exchange=rabbitmq_exchange, exchange_type="direct", passive=True)
     except pika.exceptions.ChannelClosedByBroker:
         # Exchange does not exist, so we can proceed with declaring it
-        channel.exchange_declare(exchange="cand_62cm", exchange_type="direct")
+        channel.exchange_declare(exchange=rabbitmq_exchange, exchange_type="direct")
 
     # Extract the values from the result
     gateway_eui = int(results["gatewayEui"], 16)
@@ -29,7 +37,7 @@ def send_to_exchange(results):
     "endpointId": endpoint, "clusterId":cluster,
     "attributeId":attribute, "timestamp":timestamp, "value":value
     }
-    print("Filtered results:",filtered_results)
+    print("------ Filtered results in the queue:",filtered_results)
     # Build the routing key in the specified format
     routing_key = f"{gateway_eui}.{profile}.{endpoint}.{cluster}.{attribute}"
     # print(routing_key)
@@ -38,11 +46,11 @@ def send_to_exchange(results):
     "timestamp": timestamp,
     "value": value,
     }
-    print("Message:" ,message)
+    print("Message sent:" ,message)
 
     # Send the message to the exchange
     channel.basic_publish(
-        exchange="cand_62cm",
+        exchange=rabbitmq_exchange,
         routing_key=routing_key,
         body=json.dumps(message),
         mandatory=True
@@ -50,8 +58,8 @@ def send_to_exchange(results):
 
     # Set the queue for the filtered results
     channel.queue_bind(
-        queue="cand_62cm_results",
-        exchange="cand_62cm",
+        queue=rabbitmq_queue,
+        exchange=rabbitmq_exchange,
         routing_key=routing_key
     )
     return filtered_results
