@@ -44,7 +44,7 @@ try:
         # 2. Send the data to the RabbitMQ exchange
         filtered_results = send_to_exchange(results, rabbitmq_hostname, rabbitmq_username, rabbitmq_password, rabbitmq_exchange, rabbitmq_queue)
 
-        time.sleep(1)
+        time.sleep(4)
         ####### Following lines only exist for checking purposes
         # Check if there is a message in the queue
         method_frame, header_frame, body = channel.basic_get(queue=rabbitmq_queue)
