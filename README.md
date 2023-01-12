@@ -32,7 +32,7 @@ For example, the following routing key is valid:
 The remaining values of the Result, the timestamp, and the value, are placed in the message body.
 
 ## Receiving Data:
-Filtered messages are consumed from the queue, and are stored in an mySQL database.
+Filtered messages are consumed from the queue, and are stored in a mySQL database.
 
 ## Database:
 The following details are provided for the database:
