@@ -3,7 +3,20 @@ import json
 from unittest.mock import MagicMock, patch
 from consumer import Consumer
 import pika
+import json
 
+
+# Opening JSON file
+f = open('config.json')
+  
+# Returns JSON object as a dictionary
+config = json.load(f)
+
+# Credentials for Database
+database_hostname = config["database"]["hostname"]
+database_username = config["database"]["username"]
+database_password = config["database"]["password"]
+database_name = config["database"]["database"]
 
 class TestConsumer(unittest.TestCase):
     @patch('pika.BlockingConnection')
@@ -21,7 +34,7 @@ class TestConsumer(unittest.TestCase):
         mock_channel.basic_consume = MagicMock()
 
         # Initialize the Consumer object and call the start_consuming method
-        consumer = Consumer(hostname, username, password, exchange, queue)
+        consumer = Consumer(hostname, username, password, exchange, queue,database_hostname, database_username, database_password, database_name)
         consumer.start_consuming()
 
         # Assert that the basic_consume method was called with the correct arguments
@@ -44,7 +57,7 @@ class TestConsumer(unittest.TestCase):
         mock_channel.stop_consuming = MagicMock()
 
         # Initialize the Consumer object and call the stop_consuming method
-        consumer = Consumer(hostname, username, password, exchange, queue)
+        consumer = Consumer(hostname, username, password, exchange, queue,database_hostname, database_username, database_password, database_name)
         consumer.stop_consuming()
 
         # Assert that the stop_consuming and connection.close methods were called
@@ -66,7 +79,7 @@ class TestConsumer(unittest.TestCase):
         mock_channel.exchange_declare = MagicMock()
 
         # Initialize the Consumer object
-        consumer = Consumer(hostname, username, password, exchange, queue)
+        consumer = Consumer(hostname, username, password, exchange, queue, database_hostname, database_username, database_password, database_name)
         consumer.start_consuming()
 
         # Assert that the exchange_declare method was called with the correct parameters
@@ -87,7 +100,7 @@ class TestConsumer(unittest.TestCase):
         mock_channel.exchange_declare.side_effect = [pika.exceptions.ChannelClosedByBroker(404, "not found"), None]
 
         # Initialize the Consumer object and call the start_consuming method
-        consumer = Consumer(hostname, username, password, exchange, queue)
+        consumer = Consumer(hostname, username, password, exchange, queue,database_hostname, database_username, database_password, database_name)
         try:
             consumer.start_consuming()
         except pika.exceptions.ChannelClosedByBroker as e:
@@ -109,13 +122,14 @@ class TestConsumer(unittest.TestCase):
         mock_channel.basic_consume = MagicMock()
 
         # Initialize the Consumer object and call the start_consuming method
-        consumer = Consumer(hostname, username, password, exchange, queue)
+        consumer = Consumer(hostname, username, password, exchange, queue,database_hostname, database_username, database_password, database_name)
         consumer.start_consuming()
 
         # Create a mock message and invoke the callback function
         message = {"timestamp": 1673523894310, "value": 4312}
         body = json.dumps(message)
         callback = mock_channel.basic_consume.call_args[1]["on_message_callback"]
+        print(body)
         callback(mock_channel, MagicMock(), MagicMock(), body)
 
         # Assert that the callback function was called with the correct parameters

@@ -17,10 +17,27 @@ rabbitmq_password = config["rabbitmq"]["password"]
 rabbitmq_exchange = config["rabbitmq"]["exchange"]
 rabbitmq_queue = config["rabbitmq"]["queue"]
 
+# Credentials for Database
+database_hostname = config["database"]["hostname"]
+database_username = config["database"]["username"]
+database_password = config["database"]["password"]
+database_name = config["database"]["database"]
+
 def main():
     # Initialize the consumer
-    consumer = Consumer(rabbitmq_hostname, rabbitmq_username, rabbitmq_password, rabbitmq_exchange, rabbitmq_queue)
- 
+    consumer = Consumer(rabbitmq_hostname, 
+                rabbitmq_username, 
+                rabbitmq_password, 
+                rabbitmq_exchange, 
+                rabbitmq_queue, 
+                database_hostname, 
+                database_username, 
+                database_password, 
+                database_name)
+
+    # If we want to, we can empty the database first, comment the following line if not:
+    consumer.db.reinit_database()
+
     # Consuming
     try:
         # Start consuming messages

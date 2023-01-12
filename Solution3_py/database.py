@@ -8,7 +8,7 @@ class Database:
         self.database = database
 
 
-    def store_results(self, data, flag, reinit=True):
+    def store_results(self, data):
         # Connect to the database
         connection = mysql.connector.connect(
             host=self.hostname,
@@ -33,47 +33,28 @@ class Database:
             )
         """)
 
-        # If you want to re initialize the table:
-        if reinit == True:
-            sql = "DROP TABLE results"
-            cursor.execute(sql)
-            
-            # Create the table if it does not already exist
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS results (
-                    gatewayEui BIGINT,
-                    profileId INT,
-                    endpointId INT,
-                    clusterId INT,
-                    attributeId INT,
-                    timestamp BIGINT,
-                    value REAL
-                )
-            """)
 
+        # Insert the data into the table
+        sql = "INSERT INTO results (gatewayEui, profileId, endpointId, clusterId, attributeId, timestamp, value) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        # sql = "INSERT INTO results (timestamp, value) VALUES (%s, %s)"
 
-        if flag:
-            # Insert the data into the table
-            sql = "INSERT INTO results (gatewayEui, profileId, endpointId, clusterId, attributeId, timestamp, value) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            # sql = "INSERT INTO results (timestamp, value) VALUES (%s, %s)"
+        values = (
+            data["gatewayEui"],
+            data["profileId"],
+            data["endpointId"],
+            data["clusterId"],
+            data["attributeId"],
+            data["timestamp"],
+            data["value"],
+        )
+        cursor.execute(sql, values)
 
-            values = (
-                data["gatewayEui"],
-                data["profileId"],
-                data["endpointId"],
-                data["clusterId"],
-                data["attributeId"],
-                data["timestamp"],
-                data["value"],
-            )
-            cursor.execute(sql, values)
+        # Commit the changes
+        connection.commit()
 
-            # Commit the changes
-            connection.commit()
-
-            # Close the cursor and connection
-            cursor.close()
-            connection.close()
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
 
     def read_results(self):
         # Connect to the database
@@ -101,3 +82,39 @@ class Database:
         connection.close()
 
         return results
+    
+    def reinit_database(self):
+
+        # Connect to the database
+        connection = mysql.connector.connect(
+            host=self.hostname,
+            user=self.username,
+            password=self.password,
+            database=self.database
+        )
+
+        # Create a cursor object
+        cursor = connection.cursor()
+
+        # If you want to re initialize the table:
+        sql = "DROP TABLE results"
+        cursor.execute(sql)
+        
+        # Create the table if it does not already exist
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS results (
+                gatewayEui BIGINT,
+                profileId INT,
+                endpointId INT,
+                clusterId INT,
+                attributeId INT,
+                timestamp BIGINT,
+                value REAL
+            )
+        """)
+
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
+
+        

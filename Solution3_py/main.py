@@ -32,13 +32,25 @@ def main():
     api = API(api_hostname)
 
     # Initialize RabbitMQ client
-    rabbitmq = RabbitMQ(rabbitmq_hostname, rabbitmq_username, rabbitmq_password, rabbitmq_exchange, rabbitmq_queue)
+    rabbitmq = RabbitMQ(rabbitmq_hostname,
+                rabbitmq_username,
+                rabbitmq_password,
+                rabbitmq_exchange, 
+                rabbitmq_queue)
 
     # Initialize the consumer
-    consumer = Consumer(rabbitmq_hostname, rabbitmq_username, rabbitmq_password, rabbitmq_exchange, rabbitmq_queue)
-    
-    # Initialize the Database client
-    db = Database(database_hostname, database_username, database_password,database_name)
+    consumer = Consumer(rabbitmq_hostname, 
+                rabbitmq_username, 
+                rabbitmq_password, 
+                rabbitmq_exchange, 
+                rabbitmq_queue, 
+                database_hostname, 
+                database_username, 
+                database_password, 
+                database_name)
+
+    # If we want to, we can empty the database first, comment the following line if not:
+    consumer.db.reinit_database()
 
     # Consuming data from the API, attempting to publish to the queue, store results
     try:
@@ -46,7 +58,7 @@ def main():
             
             # Get data from the API
             results = api.get_results()
-            
+
             # Flag
             published_flag=False
             counter = 0
@@ -61,12 +73,7 @@ def main():
                 counter += 1
             print('---------------------------------------------')
                 
-            # Store the results
-            db.store_results(data=filtered_results, reinit=False, flag=published_flag)
-
-            # Read results in the database (optional)
-            # print("Results TABLE:",db.read_results())
-
+            
 
     # Catch a Keyboard Interrupt to make sure that the connection is closed cleanly
     except KeyboardInterrupt:
@@ -75,11 +82,13 @@ def main():
     
     # Consuming
     try:
-        # Start consuming messages
+        # Start consuming messages and store the results through callback of consumer
         consumer.start_consuming()
     except KeyboardInterrupt:
         # Stop consuming messages
         consumer.stop_consuming()
+    
+    print("\n Database after message consumption from queue: \n", consumer.db.read_results())
 
 
 if __name__ == "__main__":
