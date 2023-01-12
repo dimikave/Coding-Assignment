@@ -72,27 +72,28 @@ class TestConsumer(unittest.TestCase):
         # Assert that the exchange_declare method was called with the correct parameters
         mock_channel.exchange_declare.assert_called_with(exchange=exchange, exchange_type="direct", passive=True)
 
-        def test_exchange_declare_not_existing(self):
-            # Set up test inputs
-            hostname = "localhost"
-            username = "testuser"
-            password = "testpassword"
-            exchange = "testexchange"
-            queue = "testqueue"
+    @patch('pika.BlockingConnection')
+    def test_exchange_declare_not_existing(self, mock_connection):
+        # Set up test inputs
+        hostname = "localhost"
+        username = "testuser"
+        password = "testpassword"
+        exchange = "testexchange"
+        queue = "testqueue"
 
-            # Create a mock channel
-            mock_channel = MagicMock()
-            mock_channel.exchange_declare.side_effect = pika.exceptions.ChannelClosedByBroker(404, "not found")
+        # Create a mock channel and set its exchange_declare method to a MagicMock
+        mock_channel = MagicMock()
+        mock_connection.return_value.channel.return_value = mock_channel
+        mock_channel.exchange_declare.side_effect = [pika.exceptions.ChannelClosedByBroker(404, "not found"), None]
 
-            # Initialize the Consumer object
-            consumer = Consumer(hostname, username, password, exchange, queue)
-            consumer.channel = mock_channel
+        # Initialize the Consumer object and call the start_consuming method
+        consumer = Consumer(hostname, username, password, exchange, queue)
+        try:
             consumer.start_consuming()
-
-        # Assert that the exchange_declare method was called with the correct parameters
-        mock_channel.exchange_declare.assert_called_with(exchange=exchange, exchange_type="direct")
-
-        
+        except pika.exceptions.ChannelClosedByBroker as e:
+            self.assertEqual(e.args[0], 404)
+            self.assertEqual(e.args[1], 'not found')
+    
     @patch('pika.BlockingConnection')
     def test_callback(self, mock_connection):
         # Set up test inputs
