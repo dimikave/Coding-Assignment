@@ -1,4 +1,4 @@
-# Real-time Data Processing API Simulation
+# Real-time Data Processing Pipeline
 ## Overview
 The project is designed to mimic the dataset received from hardware in the field, and it includes the following tasks:
 
@@ -41,4 +41,3 @@ The following details are provided for the database:
   
 Please note that the exchange provided is already declared, so the code takes it into consideration (declares the exchange safely if it is not declared, or simply connects if it is). Additionally, the results returned from the API (apart from timestamp and value) are in Hexadecimal format.
 
-This README file will be updated with more details about the code and how to run the project as the development progresses.
