@@ -24,10 +24,13 @@ Data must be posted to the exchange in the following format, using the decimal r
 
 ### Routing Key:
 Routing key has the format: 
+
 (gatewayEui).(profileId).(endpointId).(clusterId).(attributeId)
   
 For example, the following routing key is valid:
+
 9574384526953556788.260.10.1794.1024
+
 The remaining values of the Result, the timestamp, and the value, are placed in the message body.
 
 ## Receiving Data:
