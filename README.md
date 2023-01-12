@@ -23,7 +23,8 @@ Queue name
 Data must be posted to the exchange in the following format, using the decimal representation of all values:
 
 ### Routing Key:
-Routing key has the format: gatewayEui.profileId.endpointId.clusterId.attributeId
+Routing key has the format: 
+(gatewayEui).(profileId).(endpointId).(clusterId).(attributeId)
   
 For example, the following routing key is valid:
 9574384526953556788.260.10.1794.1024
