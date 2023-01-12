@@ -13,10 +13,10 @@ The project is designed to mimic the dataset received from hardware in the field
 ## Message Queue
 The project utilizes a RabbitMQ instance to filter the results. The following details are provided:
 
-Hostname
-Credentials
-Exchange name
-Queue name
+- Hostname
+- Credentials
+- Exchange name
+- Queue name
 
 
 ## Sending Data:
