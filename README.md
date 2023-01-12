@@ -23,7 +23,7 @@ Queue name
 Data must be posted to the exchange in the following format, using the decimal representation of all values:
 
 ### Routing Key:
-Routing key has the format: <gateway eui>.<profile>.<endpoint>.<cluster>.<attribute>
+Routing key has the format: gatewayEui.profileId.endpointId.clusterId.attributeId
   
 For example, the following routing key is valid:
 9574384526953556788.260.10.1794.1024
@@ -39,6 +39,6 @@ Hostname
 Credentials (username and password)
 Database name
   
-Please note that the exchange provided is already declared, so the code takes it into consideration (declares the exchange safely if it is not declared, or simply connects if it is). Additionally, the gateway EUI is returned in Hexadecimal format from the API.
+Please note that the exchange provided is already declared, so the code takes it into consideration (declares the exchange safely if it is not declared, or simply connects if it is). Additionally, the results returned from the API (apart from timestamp and value) are in Hexadecimal format.
 
 This README file will be updated with more details about the code and how to run the project as the development progresses.
