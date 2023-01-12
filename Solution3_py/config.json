@@ -1,0 +1,19 @@
+{
+    "api": {
+      "hostname": "https://xqy1konaa2.execute-api.eu-west-1.amazonaws.com/prod/results"
+    },
+    "rabbitmq": {
+      "hostname": "candidatemq.n2g-dev.net",
+      "username": "cand_62cm",
+      "password": "3ITMjTgArIDmesgX",
+      "exchange": "cand_62cm",
+      "queue": "cand_62cm_results"
+    },
+    "database": {
+      "hostname": "candidaterds.n2g-dev.net",
+      "username": "cand_62cm",
+      "password": "3ITMjTgArIDmesgX",
+      "database": "cand_62cm"
+    }
+  }
+  
