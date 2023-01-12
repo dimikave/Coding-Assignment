@@ -1,6 +1,4 @@
 # Real-time Data Processing API Simulation
-This project is focused on consuming real-time data from an API endpoint, processing it, and storing it in a database for further analysis.
-
 ## Overview
 The project is designed to mimic the dataset received from hardware in the field, and it includes the following tasks:
 
