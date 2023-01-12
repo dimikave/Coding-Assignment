@@ -1,4 +1,4 @@
-# Real-time Data Processing Pipeline
+# Assignment : Real-time Data Processing Pipeline (Simulation)
 ## Overview
 The project is designed to mimic the dataset received from hardware in the field, and it includes the following tasks:
 
