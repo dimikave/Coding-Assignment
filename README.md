@@ -39,9 +39,9 @@ Filtered messages are consumed from the queue, and are stored in an mySQL databa
 ## Database:
 The following details are provided for the database:
 
-Hostname
-Credentials (username and password)
-Database name
+- Hostname
+- Credentials (username and password)
+- Database name
   
 Please note that the exchange provided is already declared, so the code takes it into consideration (declares the exchange safely if it is not declared, or simply connects if it is). Additionally, the results returned from the API (apart from timestamp and value) are in Hexadecimal format.
 
