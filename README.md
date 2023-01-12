@@ -1,13 +1,13 @@
-# Real-time Data Processing API
+# Real-time Data Processing API Simulation
 This project is focused on consuming real-time data from an API endpoint, processing it, and storing it in a database for further analysis.
 
 ## Overview
 The project is designed to mimic the dataset received from hardware in the field, and it includes the following tasks:
 
-1. Consume data from an API endpoint
-2. Send the results to an exchange on a RabbitMQ instance where they are filtered
-3. Consume the filtered results from a queue
-4. Store these results in a database designed by the user
+1. Consume data from an API endpoint (that mimics the dataset usually received from the hardware into the field (gateways) into the platform).
+2. Send the results to an exchange on a RabbitMQ instance where they are filtered.
+3. Consume the filtered results from a queue.
+4. Store these results in a database designed by the user.
 
 
 ## Message Queue
