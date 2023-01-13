@@ -22,6 +22,21 @@ rabbitmq_queue = config["rabbitmq"]["queue"]
 
 
 def main():
+    """
+    The main_publisher starts by loading configurations from the config.json
+    file, which includes the hostname, username, password and other settings 
+    for the API and RabbitMQ. Then, it initializes the API and the Publisher (RabbitMQ).
+    
+    A try-except & a while loop are used to continuously consume data from the 
+    API and publish it to the queue. It also uses a counter to reattempt publishing 
+    a message that failed to be published. 
+    
+    If a KeyboardInterrupt (Ctrl+C) is caught, the connection of the publisher to the 
+    queue is closed.
+
+    Its purpose is to serve only as a publisher, so it can be used along with the
+    main_consumer.py in different terminals (to publish and consume messages respectively).
+    """
     # Initialize the API client
     api = API(api_hostname)
 

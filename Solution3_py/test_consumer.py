@@ -19,8 +19,30 @@ database_password = config["database"]["password"]
 database_name = config["database"]["database"]
 
 class TestConsumer(unittest.TestCase):
+    """
+    A class that tests the functionality of the Consumer class
+    
+    This test class uses the unittest library and the patch method
+    from the unittest.mock library to mock the pika.BlockingConnection
+    and test the methods of the Consumer class.
+    """
+
     @patch('pika.BlockingConnection')
     def test_start_consuming(self, mock_connection):
+        """
+        Test that the start_consuming method correctly sets up the consumer to start consuming messages.
+        
+        Verifies: 
+            - The basic_consume method was called with the correct arguments.
+
+        The test mocks the pika.BlockingConnection and creates
+        a mock channel. It sets the channel's basic_consume method
+        to a MagicMock and initializes a Consumer object with test inputs. 
+        The test then calls the start_consuming method on the Consumer 
+        object and asserts that the basic_consume method was called with the 
+        correct arguments.
+        """
+
         # Set up test inputs
         hostname = "localhost"
         username = "testuser"
@@ -42,6 +64,20 @@ class TestConsumer(unittest.TestCase):
 
     @patch('pika.BlockingConnection')
     def test_stop_consuming(self, mock_connection):
+        """
+        Test that the stop_consuming method correctly stops the consumer 
+        from consuming messages.
+        
+        Verifies:
+            - The stop_consuming and connection.close methods were called.
+        
+        The test mocks the pika.BlockingConnection and creates a mock channel. 
+        It sets the channel's stop_consuming and connection.close methods to 
+        a MagicMock and initializes a Consumer object with test inputs. 
+        The test then calls the stop_consuming method on the Consumer object and
+        asserts that the stop_consuming and connection.close methods were called.
+        """
+
         # Set up test inputs
         hostname = "localhost"
         username = "testuser"
@@ -66,6 +102,19 @@ class TestConsumer(unittest.TestCase):
     
     @patch('pika.BlockingConnection')
     def test_exchange_declare_existing(self, mock_connection):
+        """
+        Test that the exchange_declare method correctly declares an existing exchange
+        
+        Verifies:
+            - The exchange_declare method was called with the correct parameters.
+        
+        The test mocks the pika.BlockingConnection and creates a mock channel. 
+        It sets the channel's exchange_declare method to a MagicMock and initializes 
+        a Consumer object with test inputs. The test then calls the start_consuming 
+        method on the Consumer object and asserts that the exchange_declare method
+        was called with the correct parameters.
+        """
+
         # Set up test inputs
         hostname = "localhost"
         username = "testuser"
@@ -87,6 +136,19 @@ class TestConsumer(unittest.TestCase):
 
     @patch('pika.BlockingConnection')
     def test_exchange_declare_not_existing(self, mock_connection):
+        """
+        Test that the exchange_declare method correctly declares a non-existing exchange
+        
+        Verifies:
+            - The exchange_declare method was called with the correct parameters.
+        
+        The test mocks the pika.BlockingConnection and creates a mock channel. 
+        It sets the channel's exchange_declare method to a MagicMock and 
+        initializes a Consumer object with test inputs. The test then calls 
+        the start_consuming method on the Consumer object and asserts that 
+        the exchange_declare method was called with the correct parameters.
+        """
+
         # Set up test inputs
         hostname = "localhost"
         username = "testuser"
@@ -109,33 +171,30 @@ class TestConsumer(unittest.TestCase):
     
     @patch('pika.BlockingConnection')
     def test_callback(self, mock_connection):
+        """
+        Test that the callback method correctly logs the received message
+        
+        Verifies:
+            - The print statement is called with the correct output
+        """
+        
         # Set up test inputs
         hostname = "localhost"
         username = "testuser"
         password = "testpassword"
         exchange = "testexchange"
         queue = "testqueue"
+        ch, method, properties, body = MagicMock(), MagicMock(), MagicMock(), b'{"name":"John Doe"}'
 
-        # Create a mock channel and set its basic_consume method to a MagicMock
+        # Create a mock channel 
         mock_channel = MagicMock()
-        mock_connection.return_value.channel.return_value = mock_channel
-        mock_channel.basic_consume = MagicMock()
 
-        # Initialize the Consumer object and call the start_consuming method
+        # Initialize the Consumer object
         consumer = Consumer(hostname, username, password, exchange, queue,database_hostname, database_username, database_password, database_name)
-        consumer.start_consuming()
-
-        # Create a mock message and invoke the callback function
-        message = {"timestamp": 1673523894310, "value": 4312}
-        body = json.dumps(message)
-        callback = mock_channel.basic_consume.call_args[1]["on_message_callback"]
-        print(body)
-        callback(mock_channel, MagicMock(), MagicMock(), body)
-
-        # Assert that the callback function was called with the correct parameters
-        print(f"------ Received message from queue: {body}")
-
-
+        consumer.channel = mock_channel
+        with patch('builtins.print') as mock_print:
+            consumer.callback(ch, method, properties, body)
+            mock_print.assert_called_with(f"------ Received message from queue: {body}")
 
 if __name__ == '__main__':
     unittest.main()

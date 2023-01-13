@@ -24,6 +24,20 @@ database_password = config["database"]["password"]
 database_name = config["database"]["database"]
 
 def main():
+    """
+    The main() starts by loading configurations from the config.json
+    file, which includes the hostname, username, password and other settings 
+    for the RabbitMQ and Database. Then It initializes the Consumer.
+    
+    Through a try-except we start consuming messages. If a KeyboardInterrupt (Ctrl+C) 
+    is caught, the connection of the consumer to the queue is closed and the consumer
+    stops consuming messages.
+    Finally, the content of the database after message consumption from the queue is printed.
+
+    Its purpose is to serve only as a consumer, so it can be used along with the
+    main_publisher.py in different terminals (to consume and publish messages respectively).
+    """
+
     # Initialize the consumer
     consumer = Consumer(rabbitmq_hostname, 
                 rabbitmq_username, 
@@ -36,7 +50,7 @@ def main():
                 database_name)
 
     # If we want to, we can empty the database first, comment the following line if not:
-    consumer.db.reinit_database()
+    # consumer.db.reinit_database()
 
     # Consuming
     try:

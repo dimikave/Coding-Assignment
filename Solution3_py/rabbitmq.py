@@ -5,15 +5,32 @@ import time
 MAX_RETRIES=2
 
 class RabbitMQ:
+    """
+    A class that connects to a RabbitMQ instance and sends messages to a specified exchange using a specified routing key.
+
+    Attributes:
+        hostname (str): The hostname of the RabbitMQ instance.
+        username (str): The username for authenticating to the RabbitMQ instance.
+        password (str): The password for authenticating to the RabbitMQ instance.
+        exchange (str): The exchange that the messages will be sent to.
+        queue (str): The queue that the messages will be sent to.
+    """
+
     def __init__(self, hostname, username, password, exchange, queue):
+        """
+        This function initializes a RabbitMQ object and establishes (or declares) a
+        connection to the RabbitMQ instance.
+        """
+        
         self.hostname = hostname
         self.username = username
         self.password = password
         self.exchange = exchange
         self.queue = queue
-        self.confirm_deliveries = False
 
-        # Connect to the RabbitMQ instance
+        # Connect to the RabbitMQ instance with a heartbeat of 600 seconds
+        # and a blocked connection timeout of 300 seconds for network failures
+        # and persistent connection
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
             heartbeat=600,
             blocked_connection_timeout=300,
@@ -31,6 +48,17 @@ class RabbitMQ:
             self.channel.exchange_declare(exchange=self.exchange, exchange_type="direct",durable=True)
 
     def send_to_exchange(self, results):
+        """
+        Send a message to the specified exchange using the specified routing key.
+
+        Parameters:
+            results (dict): The message to be sent.
+
+        Returns:
+            filtered_results (dict): A filtered version of the original message.
+            published_flag (bool): Indicates whether or not the message was successfully published.
+        """
+
         gateway_eui = int(results["gatewayEui"], 16)
         profile = int(results["profileId"],16)
         endpoint = int(results["endpointId"],16)
@@ -67,8 +95,10 @@ class RabbitMQ:
                                                     delivery_mode=pika.DeliveryMode.Persistent),
                     mandatory=True)
                 print('Message was successfully published.')
+                # If the message is published, change to true.
                 published_flag=True
                 break
+            # If the message is unroutable, then we double the time and resend the message
             except pika.exceptions.UnroutableError:
                 retries += 1
                 delay = 2 ** retries
@@ -78,7 +108,8 @@ class RabbitMQ:
 
         if (published_flag==False):
             print('Message was return as it reached maximum retries and failed to be published.')
-                          
+        
+        # Bind the queue to the exchange so the messages go to the queue
         self.channel.queue_bind(
             queue=self.queue,
             exchange=self.exchange,

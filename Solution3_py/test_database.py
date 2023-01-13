@@ -18,6 +18,10 @@ database_name = config["database"]["database"]
 
 class TestDatabase(unittest.TestCase):
     def setUp(self):
+        """
+        Set up test data and create a new instance of the Database class
+        """
+
         # Set up test data
         self.hostname = database_hostname
         self.username = database_username
@@ -38,6 +42,13 @@ class TestDatabase(unittest.TestCase):
 
     # Testing how to store results
     def test_store_results(self):
+        """
+        Test storing data in the database
+
+        Verifies:
+            - The data is stored correctly in the database
+        """
+
         # Test storing data in the database
         self.db.store_results(self.data)
 
@@ -53,6 +64,13 @@ class TestDatabase(unittest.TestCase):
 
 
     def test_reinit_database(self):
+        """
+        Test that the reinit_database method correctly clears the database
+        
+        Verifies:
+            - The results table is empty after calling the reinit_database method
+        """
+
         # Create a new instance of the Database class
         db = Database(self.hostname, self.username, self.password, self.database)
         
@@ -67,6 +85,13 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(len(results), 0)
 
     def test_read_results(self):
+        """
+        Test that the read_results method correctly retrieves data from the database
+
+        Verifies:
+            - The returned results contain the test data
+        """
+        
         # Create a database object
         db = Database(self.hostname, self.username, self.password, self.database)
         

@@ -18,7 +18,15 @@ rabbitmq_exchange = config["rabbitmq"]["exchange"]
 rabbitmq_queue = config["rabbitmq"]["queue"]
 
 class TestRabbitMQ(unittest.TestCase):
+
     def test_send_to_exchange(self):
+        """
+        Test that the send_to_exchange method correctly sends messages to the exchange
+        
+        Verifies:
+            - The filtered_results and published_flag match expected values
+        """
+
         # Set up test inputs
         hostname = rabbitmq_hostname
         username = rabbitmq_username
@@ -26,11 +34,11 @@ class TestRabbitMQ(unittest.TestCase):
         exchange = rabbitmq_exchange
         queue = rabbitmq_queue
         results = {
-            "gatewayEui": hex(int("9574384526953556788")),
-            "profileId": hex(int("260")),
-            "endpointId": hex(int("10")),
-            "clusterId": hex(int("1794")),
-            "attributeId": hex(int("1024")),
+            "gatewayEui": hex(9574384526953556788),
+            "profileId": hex(260),
+            "endpointId": hex(10),
+            "clusterId": hex(1794),
+            "attributeId": hex(1024),
             "timestamp": 1673519598131,
             "value": 2341
         }
@@ -52,6 +60,14 @@ class TestRabbitMQ(unittest.TestCase):
         self.assertTrue(published_flag)
 
     def test_send_to_exchange_failure(self):
+        """
+        Test that the send_to_exchange method fails when an invalid exchange is passed
+        
+        Verifies:
+            - The exception is of type ChannelWrongStateError
+            - The published_flag remains False
+        """
+        
         # Set up test inputs
         hostname = rabbitmq_hostname
         username = rabbitmq_username

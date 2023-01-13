@@ -28,6 +28,24 @@ database_name = config["database"]["database"]
 
 
 def main():
+    """
+    The main() starts by loading configurations from the config.json
+    file, which includes the hostname, username, password and other settings 
+    for the API, RabbitMQ and Database. Then, it initializes the API, Publisher
+    (RabbitMQ) and Consumer.
+    
+    A try-except & a while loop are used to continuously consume data from the 
+    API and publish it to the queue. It also uses a counter to reattempt publishing 
+    a message that failed to be published. 
+    
+    If a KeyboardInterrupt (Ctrl+C) is caught, the connection of the publisher to the 
+    queue is closed and we then proceed to consuming.
+    Through a try-except we start consuming messages. If a KeyboardInterrupt (Ctrl+C) 
+    is caught, the connection of the consumer to the queue is closed and the consumer
+    stops consuming messages.
+    Finally, the content of the database after message consumption from the queue is printed.
+    """
+
     # Initialize the API client
     api = API(api_hostname)
 
