@@ -11,7 +11,7 @@ f = open('config.json')
   
 # Returns JSON object as a dictionary
 config = json.load(f)
-
+ 
 # Credentials for Database
 database_hostname = config["database"]["hostname"]
 database_username = config["database"]["username"]

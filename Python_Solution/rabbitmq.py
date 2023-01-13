@@ -27,7 +27,7 @@ class RabbitMQ:
         self.password = password
         self.exchange = exchange
         self.queue = queue
-
+         
         # Connect to the RabbitMQ instance with a heartbeat of 600 seconds
         # and a blocked connection timeout of 300 seconds for network failures
         # and persistent connection

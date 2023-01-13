@@ -18,7 +18,7 @@ class API:
             hostname (str): The hostname to make the GET request to.
         """
         self.hostname = hostname
-
+         
     
     def get_results(self):
         """

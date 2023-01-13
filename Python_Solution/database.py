@@ -17,7 +17,6 @@ class Database:
         self.password = password
         self.database = database
 
-
     def store_results(self, data):
         """
         Store data in the 'results' table of the MySQL database.

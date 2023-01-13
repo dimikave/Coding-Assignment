@@ -30,7 +30,7 @@ class TestAPI(unittest.TestCase):
 
         # Set up the mock response
         mock.get('https://xqy1konaa2.execute-api.eu-west-1.amazonaws.com/prod/results', json={'test': 'data'}, status_code=200)
-
+  
         # Call the method being tested
         results = self.api.get_results()
 

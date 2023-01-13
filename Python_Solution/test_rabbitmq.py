@@ -16,7 +16,7 @@ rabbitmq_username = config["rabbitmq"]["username"]
 rabbitmq_password = config["rabbitmq"]["password"]
 rabbitmq_exchange = config["rabbitmq"]["exchange"]
 rabbitmq_queue = config["rabbitmq"]["queue"]
-
+ 
 class TestRabbitMQ(unittest.TestCase):
 
     def test_send_to_exchange(self):

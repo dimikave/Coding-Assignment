@@ -15,7 +15,7 @@ database_username = config["database"]["username"]
 database_password = config["database"]["password"]
 database_name = config["database"]["database"]
 
-
+ 
 class TestDatabase(unittest.TestCase):
     def setUp(self):
         """

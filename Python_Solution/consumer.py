@@ -20,7 +20,7 @@ class Consumer:
         """
         Consumer constructor.
         """
-
+         
         self.hostname = hostname
         self.username = username
         self.password = password

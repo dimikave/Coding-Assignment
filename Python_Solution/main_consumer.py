@@ -9,7 +9,7 @@ f = open('config.json')
   
 # Returns JSON object as a dictionary
 config = json.load(f)
-
+ 
 # Credentials for RabbitMQ
 rabbitmq_hostname = config["rabbitmq"]["hostname"]
 rabbitmq_username = config["rabbitmq"]["username"]
@@ -50,7 +50,7 @@ def main():
                 database_name)
 
     # If we want to, we can empty the database first, comment the following line if not:
-    # consumer.db.reinit_database()
+    consumer.db.reinit_database()
 
     # Consuming
     try:
@@ -59,6 +59,8 @@ def main():
     except KeyboardInterrupt:
         # Stop consuming messages
         consumer.stop_consuming()
+        
+    print("\n Database after message consumption from queue: \n", consumer.db.read_results())
 
 if __name__ == "__main__":
     main()

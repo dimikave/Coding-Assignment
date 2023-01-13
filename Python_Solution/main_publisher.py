@@ -12,7 +12,7 @@ config = json.load(f)
 
 # API url
 api_hostname = config["api"]["hostname"]
-
+ 
 # Credentials for RabbitMQ
 rabbitmq_hostname = config["rabbitmq"]["hostname"]
 rabbitmq_username = config["rabbitmq"]["username"]
@@ -46,7 +46,7 @@ def main():
                 rabbitmq_password,
                 rabbitmq_exchange, 
                 rabbitmq_queue)
-
+    
     
     # Consuming data from the API, attempting to publish to the queue, store results
     try:
