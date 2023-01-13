@@ -3,7 +3,7 @@
 ## IMPORTANT - Solutions:
 For the following assignment, first a Python Solution was programmed (since it is the language I am most comfortable with). This solution is running, it is fully implemented and documented and is the one I deliver to you.  
 
-After that, an effort to provide a second PHP (Symfony+Doctrine) Solution was made, but neither the code nor the documentation of this solution is complete (the code is not running). (Note: I never programmed with PHP before this assignment). However it was an interesting process and I intend to complete this solution on PHP as well in order to learn the language.
+After that, an effort to provide a second PHP Solution (with Symfony+Doctrine)  was made, but neither the code nor the documentation of this solution is complete (the code is not running). (Note: I never programmed with PHP before this assignment). However it was an interesting process and I intend to complete this solution on PHP as well in order to learn the language.
 
 ## Overview of the project:
 The project is designed to mimic the dataset received from hardware in the field, and it includes the following tasks:
