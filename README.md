@@ -1,5 +1,9 @@
 # Assignment : Real-time Data Processing Pipeline (Simulation)
-## Overview
+
+## IMPORTANT - Solutions:
+For the following assignment, first a Python Solution was programmed (since it is the language I am most comfortable with), and then an effort to provide a second PHP (Symfony+Doctrine) Solution was made, but it is neither the code nor the documentation of this solution is complete (the code is not running). (Note: I never programmed with PHP before this assignment).
+
+## Overview:
 The project is designed to mimic the dataset received from hardware in the field, and it includes the following tasks:
 
 1. Consume data from an API endpoint (that mimics the dataset usually received from the hardware into the field (gateways) into the platform).
