@@ -21,3 +21,27 @@ The project is using 4 basic scripts:
 
 The main_publisher.py and main_consumer.py are programmed in a way to give the flexibility to the user to run them in 2 different terminals, so one file is a Publisher (gets data from the API and publishes messages to the queue) and the other is a Consumer (consumes messages and stores them into the database).
 
+## Database:
+#### Database schema:
+```sql
+CREATE TABLE IF NOT EXISTS results (
+    gatewayEui BIGINT,
+    profileId INT,
+    endpointId INT,
+    clusterId INT,
+    attributeId INT,
+    timestamp BIGINT,
+    value REAL
+);
+```
+```markdown
+| Column name    | Data type  |
+|----------------|------------|
+| gatewayEui     | BIGINT     |
+| profileId       | INT        |
+| endpointId      | INT        |
+| clusterId       | INT        |
+| attributeId     | INT        |
+| timestamp       | BIGINT     |
+| value           | REAL       |
+```
