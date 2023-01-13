@@ -51,5 +51,15 @@ The desicion for this design of database is considering the following:
 - timestamp is a BIGINT as this is the way it is received, it could be easily transformed to real date.
 - value is REAL, even though it is received as an integer, because probably in a real situation the measurments/data values from the hardware will be float numbers.
 
+## Unit Tests:
+The following test files are VERY simple unit tests to the corresponding basic files:
+- `test_api.py:` Unit test for the api.py file.
+- `test_rabbitmq.py:` Unit test for the rabbitmq.py file.
+- `test_database.py:` Unit test for the database.py file.
+- `test_consumer.py:` Unit test for the consumer.py file.
+
+#### Run Unit tests:
+You can run the unit tests by:
+- `python test_file.py` where file is the file you want to test among api, rabbitmq, database and consumer.
 
 
