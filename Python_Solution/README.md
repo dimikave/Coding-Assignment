@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS results (
 | value          | REAL       |
 ```
 The desicion for this design of database is considering the following:
-- All the variables that consist the routing key (gatewayEui, profileId, endpointId, clusterId, attributeId) might be important to have in a real case since either their values are "coordinates" to specific hardware on the field or maybe they give specific details about the nature of the measurement. This is why we don't discard them when we publish or consuming the message.
+- All the variables that consist the routing key (gatewayEui, profileId, endpointId, clusterId, attributeId) might be important to have in a real case since either their values are "coordinates" to specific hardware on the field or maybe they give specific details about the nature of the measurement. This is why we don't discard them when we publish or consuming the message. If we decide that they are not needed, it is easy to modify the database and keep only timestamp and value instead.
 - timestamp is a BIGINT as this is the way it is received, it could be easily transformed to real date.
 - value is REAL, even though it is received as an integer, because probably in a real situation the measurments/data values from the hardware will be float numbers.
 
