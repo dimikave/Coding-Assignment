@@ -19,5 +19,5 @@ The project is using 4 basic scripts:
 - `python main_publisher.py:` Same functionality as main, but only performs as a Publisher (it has the first loop of main, it only publishes to the queue.)
 - `python main_consumer.py:` Same functionality as main, but only performs as a Consumer (it has the second loop of main, it only consumes messages from queue and stores the contents into the database.
 
-The main_publisher.py and main_consumer.py are programmed in a way to give the flexibility to be run in 2 different terminals, so one file is a Publisher (gets data from the API and publishes messages to the queue) and the other is a Consumer (consumes messages and stores them into the database).
+The main_publisher.py and main_consumer.py are programmed in a way to give the flexibility to the user to run them in 2 different terminals, so one file is a Publisher (gets data from the API and publishes messages to the queue) and the other is a Consumer (consumes messages and stores them into the database).
 
