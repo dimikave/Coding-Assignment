@@ -9,8 +9,7 @@
 ## Code Structure:
 The project is using 4 basic scripts:
 
-- <mark>api.py</mark>: A class to make GET requests to the API and return the results.
-- <mark>rabbbitmq.py</mark>: A class that connects to a RabbitMQ instance and sends messages to an exchange using a routing key (Publisher)
-::database.py::: A class that connects to a MySQL database and stores and retrieves data.
-
-<ins>consumer.py</ins>: A class that consumes messages from a specified RabbitMQ queue, processes them and stores them in a database using the Database object of database.py.
+- api.py: A class to make GET requests to the API and return the results.
+- rabbbitmq.py: A class that connects to a RabbitMQ instance and sends messages to an exchange using a routing key (Publisher)
+- database.py: A class that connects to a MySQL database and stores and retrieves data.
+- consumer.py: A class that consumes messages from a specified RabbitMQ queue, processes them and stores them in a database using the Database object of database.py.
