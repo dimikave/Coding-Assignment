@@ -1,6 +1,7 @@
 # Python Solution to Assignment
 
-## Installation:
+## Setup:
+### Cloning:
 - `git clone https://github.com/dimikave/Coding-Assignment/tree/main/Python_Solution`
 
 ### Requirements:
