@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS results (
 | Column name    | Data type  |
 |----------------|------------|
 | gatewayEui     | BIGINT     |
-| profileId       | INT        |
-| endpointId      | INT        |
-| clusterId       | INT        |
-| attributeId     | INT        |
-| timestamp       | BIGINT     |
-| value           | REAL       |
+| profileId      | INT        |
+| endpointId     | INT        |
+| clusterId      | INT        |
+| attributeId    | INT        |
+| timestamp      | BIGINT     |
+| value          | REAL       |
 ```
