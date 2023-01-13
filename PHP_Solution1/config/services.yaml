@@ -1,0 +1,51 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    api_hostname: https://xqy1konaa2.execute-api.eu-west-1.amazonaws.com/prod/results
+    rabbitmq_hostname: candidatemq.n2g-dev.net
+    rabbitmq_username: cand_62cm
+    rabbitmq_password: 3ITMjTgArIDmesgX
+    rabbitmq_exchange: cand_62cm
+    rabbitmq_queue: cand_62cm_results
+    database_hostname: candidaterds.n2g-dev.net
+    database_username: cand_62cm
+    database_password: 3ITMjTgArIDmesgX
+    database_database: cand_62cm
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+    
+    App\Service\Api\ApiService:
+        arguments:
+            $hostname: '%api_hostname%'
+
+    App\Service\Consumer\ConsumerService:
+        arguments:
+            $em: '@doctrine.orm.default_entity_manager'
+            $hostname: '%rabbitmq_hostname%'
+            $username: '%rabbitmq_username%'
+            $password: '%rabbitmq_password%'
+            $exchange: '%rabbitmq_exchange%'
+            $queue: '%rabbitmq_queue%'
+            # $db_hostname: '%database_hostname%'
+            # $db_username: '%database_username%'
+            # $db_password: '%database_password%'
+            # $db_database: '%database_database%'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
