@@ -8,7 +8,7 @@
 - `pip install -r requirements.txt`
 
 ## Code Structure:
-The project is using 4 basic scripts:
+The code in the main structure utilizes 4 basic scripts:
 
 - api.py: A class to make GET requests to the API and return the results.
 - rabbbitmq.py: A class that connects to a RabbitMQ instance and sends messages to an exchange using a routing key (Publisher)
