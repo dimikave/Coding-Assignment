@@ -6,14 +6,16 @@
 
 ### Requirements:
 - `pip install -r requirements.txt`
+- `python version: 3.10.6`
 
 ## Code Structure:
 The code in the main structure utilizes 4 basic scripts:
 
-- api.py: A class to make GET requests to the API and return the results.
-- rabbbitmq.py: A class that connects to a RabbitMQ instance and sends messages to an exchange using a routing key (Publisher)
-- database.py: A class that connects to a MySQL database and stores and retrieves data.
-- consumer.py: A class that consumes messages from a specified RabbitMQ queue, processes them and stores them in a database using the Database object of database.py.
+- `api.py:` A class to make GET requests to the API and return the results.
+- `rabbbitmq.py:` A class that connects to a RabbitMQ instance and sends messages to an exchange using a routing key (Publisher)
+- `database.py:` A class that connects to a MySQL database and stores and retrieves data.
+- `consumer.py:` A class that consumes messages from a specified RabbitMQ queue, processes them and stores them in a database using the Database object of database.py.
+- Also, a config.json file is needed for this code to work.
 
 ### Run the code:
 - `python main.py:` Run it if you want to perform all tasks in the same file. This main file works with KeyboardInterruption (Ctrl+C) and 2 basic loops, the Publisher loop and the Consumer loop. Let it run for a while to let the publisher publish some messages to the queue (got from the API), then make a KeyboardInterruption by pressing Ctrl+C to activate the Consumer loop and consume the messages (and also store them into the database). Then again, make a KeyboardInterruption by pressing Ctrl+C, to end the consuming (and storing) operation and finally show the contents of the database. Note that there is a line in the main file to choose if you want to reinitialize the database (if you don't want to, simply comment the line).
